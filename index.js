@@ -4,11 +4,16 @@ const imageRouter = require('./image-router.js')
 
 const server = new YowzaServer.default();
 
+server.addMiddleware(async(event) => {
+    console.log(event.request.url);
+    return event;
+})
+
 server.addRouter(imageRouter);
 server.addRouter(fumenRouter);
 
 server.listen({
     http: {
-        port: 80
+        port: 3000
     }
 }, () => {console.log('listen on port 80.')})

@@ -4,7 +4,7 @@ const { existsSync, createReadStream } = require('fs');
 const fumenRouter = new YowzaServerRouter('/fumen/:songNo/:difficulty');
 
 fumenRouter.addHandler(async (event) => {
-    const fileName = event.params.songNo + '/' + event.params.difficulty;
+    const fileName = event.params.songNo + '/' + event.params.difficulty + '.png';
     const filePath = __dirname + '/files/fumen/' + fileName;
 
     if (!existsSync(filePath)){
