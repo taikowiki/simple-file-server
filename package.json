@@ -2,5 +2,7 @@
   "dependencies": {
     "@yowza/server": "^0.3.3"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "author": "hotsixmman",
+  "license": "MIT"
 }
