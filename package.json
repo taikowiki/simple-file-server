@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@yowza/server": "^0.3.3"
+  }
+}
