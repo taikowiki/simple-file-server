@@ -1,11 +1,10 @@
 const YowzaServer = require('@yowza/server');
 const fumenRouter = require('./fumen-router.js');
-const imageRouter = require('./image-router.js')
+const imageRouter = require('./image-router.js');
 
 const server = new YowzaServer.default();
 
 server.addMiddleware(async(event) => {
-    console.log(event.request.url);
     return event;
 })
 
