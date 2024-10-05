@@ -1,6 +1,6 @@
 const { defineDBHandler } = require('@yowza/db-handler');
 const { YowzaServerResponse, YowzaServerRouter, YowzaServerError } = require('@yowza/server');
-const { createDecipheriv } = require('crypto');
+const { createDecipheriv, randomUUID } = require('crypto');
 const dotenv = require('dotenv');
 const mime = require('mime-types');
 const fs = require('fs');
@@ -29,7 +29,7 @@ const getUserData = defineDBHandler((provider, providerId) => {
 })
 const logFile = defineDBHandler((UUID, originalFileName, fileName) => {
     return async(run) => {
-        return await run("INSERT INTO `file/log` (`UUID`, `originalFileName`, `fileName`) VALUES ()", [UUID, originalFileName, fileName])
+        return await run("INSERT INTO `file/log` (`UUID`, `originalFileName`, `fileName`) VALUES (?, ?, ?)", [UUID, originalFileName, fileName])
     }
 })
 
@@ -52,13 +52,14 @@ imgUploadRouter.addHandler(async (event) => {
     }
 
     event.response.header.set('Access-Control-Allow-Origin', 'https://taiko.wiki');
+    event.response.header.set('Access-Control-Allow-Credentials', 'true');
 
     const formData = await event.request.form();
     const file = formData.get('file');
 
     let fileName;
     while(true){
-        fileName = `${Date.now().toString(16)}${Math.random().toString(16)?.replaceAll('.', '')}.${file.mime ? mime.extension(file.mime) : ''}`;
+        fileName = `${randomUUID()}.${file.mime ? mime.extension(file.mime) : ''}`;
         if(!fs.existsSync(__dirname + '/files/img/' + fileName)){
             break;
         }
