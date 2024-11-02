@@ -42,7 +42,7 @@ linkUploadRouter.addHandler(async (event) => {
 
     const userToken = event.request.cookie.get('auth-user');
 
-    if (!requestData.key || userToken) {
+    if (!requestData.key && !userToken) {
         return new YowzaServerError(403);
     }
 
