@@ -19,6 +19,6 @@ server.addRouter(linkUploadRouter);
 
 server.listen({
     http: {
-        port: 3000
+        port: 4000
     }
-}, () => {console.log('listen on port 80.')})
+}, () => {console.log('listen on port 4000.')})
