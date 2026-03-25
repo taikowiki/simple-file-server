@@ -23,13 +23,15 @@ func GetFumenViewRouter() gin.HandlerFunc {
 			return
 		}
 
+		// fileName
 		fileName := filepath.Join(filepath.Clean(songNo), filepath.Clean(difficulty)) + ".png"
 		if strings.Contains(fileName, "..") {
 			ctx.AbortWithStatus(400)
 			return
 		}
 
-		filePath := filepath.Join(util.MainDir(), "fumen", fileName)
+		// filePath
+		filePath := filepath.Join(util.FileDir(), "fumen", fileName)
 		stat, err := os.Stat(filePath)
 		if err != nil {
 			if os.IsNotExist(err) {
@@ -46,6 +48,7 @@ func GetFumenViewRouter() gin.HandlerFunc {
 			return
 		}
 
+		// send file
 		ctx.File(filePath)
 	}
 }

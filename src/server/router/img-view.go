@@ -24,7 +24,7 @@ func GetImgViewRouter() gin.HandlerFunc {
 			return
 		}
 
-		filePath := filepath.Join(util.MainDir(), "img", fileName)
+		filePath := filepath.Join(util.FileDir(), "img", fileName)
 		stat, err := os.Stat(filePath)
 		if err != nil {
 			if os.IsNotExist(err) {
