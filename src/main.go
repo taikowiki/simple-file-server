@@ -19,5 +19,5 @@ func init() {
 
 func main() {
 	app := server.CreateServer()
-	app.Run(os.Getenv("port"))
+	app.Run(os.Getenv("PORT"))
 }

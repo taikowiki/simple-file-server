@@ -28,19 +28,21 @@ func GetImgViewRouter() gin.HandlerFunc {
 		stat, err := os.Stat(filePath)
 		if err != nil {
 			if os.IsNotExist(err) {
-				log.Println(filePath, "not exists.")
+				log.Printf("[ImgView] File not found: %s", filePath)
 				ctx.AbortWithStatus(404)
 				return
 			}
+			log.Printf("[ImgView] Error checking file: %v (path: %s)", err, filePath)
 			ctx.AbortWithStatus(500)
 			return
 		}
 		if stat.IsDir() {
-			log.Println(filePath, "is a directory.")
+			log.Printf("[ImgView] Path is a directory: %s", filePath)
 			ctx.AbortWithStatus(404)
 			return
 		}
 
+		log.Printf("[ImgView] Serving file: %s", fileName)
 		ctx.File(filePath)
 	}
 }

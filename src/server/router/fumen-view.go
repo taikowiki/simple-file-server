@@ -35,20 +35,22 @@ func GetFumenViewRouter() gin.HandlerFunc {
 		stat, err := os.Stat(filePath)
 		if err != nil {
 			if os.IsNotExist(err) {
-				log.Println(filePath, "not exists.")
+				log.Printf("[FumenView] File not found: %s", filePath)
 				ctx.AbortWithStatus(404)
 				return
 			}
+			log.Printf("[FumenView] Error checking file: %v (path: %s)", err, filePath)
 			ctx.AbortWithStatus(500)
 			return
 		}
 		if stat.IsDir() {
-			log.Println(filePath, "is a directory.")
+			log.Printf("[FumenView] Path is a directory: %s", filePath)
 			ctx.AbortWithStatus(404)
 			return
 		}
 
 		// send file
+		log.Printf("[FumenView] Serving file: %s", fileName)
 		ctx.File(filePath)
 	}
 }

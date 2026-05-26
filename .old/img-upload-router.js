@@ -7,10 +7,22 @@ const fs = require('fs');
 
 dotenv.config();
 
-function decipher(encrypted, key) {
-    const bufferKey = Buffer.from(key, 'hex');
-    const decrypt = createDecipheriv('aes-256-gcm', bufferKey, bufferKey);
-    const decrypted = decrypt.update(encrypted, 'hex', 'utf-8');
+function decipher(encryptedData, key) {
+    const [ivBase64, authTagBase64, encrypted] = encryptedData.split('.');
+    if (!ivBase64 || !authTagBase64 || !encrypted) {
+        throw new Error("Invalid encrypted data.");
+    }
+
+    const keyBuffer = Buffer.from(key, 'hex');
+    const iv = Buffer.from(ivBase64, 'base64url');
+    const authTag = Buffer.from(authTagBase64, 'base64url');
+
+    const decrypt = createDecipheriv('aes-256-gcm', keyBuffer, iv);
+
+    decrypt.setAuthTag(Uint8Array.from(authTag));
+
+    let decrypted = decrypt.update(encrypted, 'base64url', 'utf-8');
+    decrypted += decrypt.final('utf-8');
 
     return decrypted;
 }
